@@ -197,7 +197,9 @@ predictions_df.to_csv('../results/nn_predictions.csv', index=False)
 # Create visualizations
 print("\nGenerating visualizations...")
 
-# Confusion Matrix
+# Visualization 1: Confusion Matrix
+# Shows how many samples were correctly/incorrectly classified
+# Diagonal = correct predictions, Off-diagonal = errors
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=True,
             xticklabels=['Benign', 'Malware'],
@@ -209,7 +211,10 @@ plt.tight_layout()
 plt.savefig('../visualizations/nn_confusion_matrix.png', dpi=300)
 plt.close()
 
-# Training History
+# Visualization 2: Training History (4 metrics)
+# Shows how the model improved during training across 100 epochs
+# Accuracy/Precision/Recall increasing = model learning
+# Train and Test lines close together = no overfitting
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
 # Accuracy
@@ -252,7 +257,10 @@ plt.tight_layout()
 plt.savefig('../visualizations/nn_training_history.png', dpi=300)
 plt.close()
 
-# ROC Curve
+# Visualization 3: ROC Curve
+# Measures the model's ability to distinguish between classes
+# AUC closer to 1.0 = better performance
+# Curve closer to top-left corner = better model
 fpr, tpr, thresholds = roc_curve(y_test, y_test_proba)
 roc_auc = auc(fpr, tpr)
 
@@ -268,44 +276,6 @@ plt.legend(loc="lower right")
 plt.grid(alpha=0.3)
 plt.tight_layout()
 plt.savefig('../visualizations/nn_roc_curve.png', dpi=300)
-plt.close()
-
-# Probability Distribution
-plt.figure(figsize=(10, 6))
-plt.hist(y_test_proba[y_test == 0], bins=50, alpha=0.7, label='Benign', color='blue')
-plt.hist(y_test_proba[y_test == 1], bins=50, alpha=0.7, label='Malware', color='red')
-plt.xlabel('Predicted Probability of Malware')
-plt.ylabel('Frequency')
-plt.title('Neural Network - Prediction Probability Distribution')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.tight_layout()
-plt.savefig('../visualizations/nn_probability_distribution.png', dpi=300)
-plt.close()
-
-# All Metrics in One Plot
-fig, axes = plt.subplots(2, 3, figsize=(18, 10))
-
-metrics = ['accuracy', 'loss', 'precision', 'recall', 'auc']
-titles = ['Accuracy', 'Loss', 'Precision', 'Recall', 'AUC']
-
-for idx, (metric, title) in enumerate(zip(metrics, titles)):
-    row = idx // 3
-    col = idx % 3
-    axes[row, col].plot(history.history[metric], label='Train')
-    axes[row, col].plot(history.history[f'val_{metric}'], label='Test')
-    axes[row, col].set_title(title)
-    axes[row, col].set_ylabel(title)
-    axes[row, col].set_xlabel('Epoch')
-    axes[row, col].legend()
-    axes[row, col].grid(alpha=0.3)
-
-# Hide the last subplot
-axes[1, 2].axis('off')
-
-plt.suptitle('Neural Network - All Training Metrics', fontsize=16)
-plt.tight_layout()
-plt.savefig('../visualizations/nn_all_metrics.png', dpi=300)
 plt.close()
 
 print("\n" + "="*50)

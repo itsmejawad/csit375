@@ -163,7 +163,9 @@ predictions_df.to_csv('../results/xgb_predictions.csv', index=False)
 # Create visualizations
 print("\nGenerating visualizations...")
 
-# Confusion Matrix
+# Visualization 1: Confusion Matrix
+# Shows how many samples were correctly/incorrectly classified
+# Diagonal = correct predictions, Off-diagonal = errors
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Oranges', cbar=True,
             xticklabels=['Benign', 'Malware'],
@@ -175,7 +177,9 @@ plt.tight_layout()
 plt.savefig('../visualizations/xgb_confusion_matrix.png', dpi=300)
 plt.close()
 
-# Feature Importance
+# Visualization 2: Feature Importance
+# Shows which features were most important for the model's decisions
+# Higher bars = more important features
 plt.figure(figsize=(12, 8))
 top_features = feature_importance.head(15)
 plt.barh(range(len(top_features)), top_features['importance'].values, color='darkorange')
@@ -188,7 +192,10 @@ plt.tight_layout()
 plt.savefig('../visualizations/xgb_feature_importance.png', dpi=300)
 plt.close()
 
-# ROC Curve
+# Visualization 3: ROC Curve
+# Measures the model's ability to distinguish between classes
+# AUC closer to 1.0 = better performance
+# Curve closer to top-left corner = better model
 fpr, tpr, thresholds = roc_curve(y_test, y_test_proba)
 roc_auc = auc(fpr, tpr)
 
@@ -205,37 +212,6 @@ plt.grid(alpha=0.3)
 plt.tight_layout()
 plt.savefig('../visualizations/xgb_roc_curve.png', dpi=300)
 plt.close()
-
-# Probability Distribution
-plt.figure(figsize=(10, 6))
-plt.hist(y_test_proba[y_test == 0], bins=50, alpha=0.7, label='Benign', color='blue')
-plt.hist(y_test_proba[y_test == 1], bins=50, alpha=0.7, label='Malware', color='red')
-plt.xlabel('Predicted Probability of Malware')
-plt.ylabel('Frequency')
-plt.title('XGBoost - Prediction Probability Distribution')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.tight_layout()
-plt.savefig('../visualizations/xgb_probability_distribution.png', dpi=300)
-plt.close()
-
-# Training History
-results = xgb_model.evals_result()
-if results:
-    epochs = len(results['validation_0']['logloss'])
-    x_axis = range(0, epochs)
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(x_axis, results['validation_0']['logloss'], label='Train')
-    plt.plot(x_axis, results['validation_1']['logloss'], label='Test')
-    plt.xlabel('Boosting Round')
-    plt.ylabel('Log Loss')
-    plt.title('XGBoost - Training History')
-    plt.legend()
-    plt.grid(alpha=0.3)
-    plt.tight_layout()
-    plt.savefig('../visualizations/xgb_training_history.png', dpi=300)
-    plt.close()
 
 print("\n" + "="*50)
 print("TRAINING COMPLETE")
