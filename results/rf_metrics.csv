@@ -1,0 +1,2 @@
+Model,Training_Time_Sec,Train_Accuracy,Train_Precision,Train_Recall,Train_F1,Train_AUC,Test_Accuracy,Test_Precision,Test_Recall,Test_F1,Test_AUC,Overfitting_Gap
+Random Forest,1.3786399364471436,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
