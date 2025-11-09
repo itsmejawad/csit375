@@ -1,2 +1,0 @@
-Model,Training_Time_Sec,Train_Accuracy,Train_Precision,Train_Recall,Train_F1,Train_AUC,Test_Accuracy,Test_Precision,Test_Recall,Test_F1,Test_AUC,Overfitting_Gap,Total_Epochs
-Neural Network,468.8557343482971,0.9999625,1.0,0.999925,0.9999624985936972,1.0,0.99985,0.9998999899989999,0.9998,0.999849992499625,0.99999987,0.00011249999999995985,100

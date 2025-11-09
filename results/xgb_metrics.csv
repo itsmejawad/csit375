@@ -1,2 +1,0 @@
-Model,Training_Time_Sec,Train_Accuracy,Train_Precision,Train_Recall,Train_F1,Train_AUC,Test_Accuracy,Test_Precision,Test_Recall,Test_F1,Test_AUC,Overfitting_Gap
-XGBoost,1.7919692993164062,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0
